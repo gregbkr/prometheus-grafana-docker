@@ -2,7 +2,59 @@
 ## PROMETHEUS
 #####################################################################################################
 
-Run via compose, or manually:
+# Run via compose, 
+
+## 1. Edit vars:
+
+    nano docker-compose.yml
+    --> Prometheus section: replace with alertmanager ip.
+
+    nano prometheus.yml
+    --> Replace target_IP with those of cadvisor/node-exporter.
+
+## 2. Run compose
+
+    docker-compose up -d
+
+## 3. test
+
+Prometheus: http://your_ip:9090
+Try: node_cpu  --> execute
+
+Grafana: http://your_ip:3001
+Datasources > New > Prometheus, http://your_ip:9090, Proxy > test connection > OK
+
+Dashboard > import > /dashboards/bity-test.json
+
+Use template vars: (if not included in bity-test dashboard)
+Option > Templating: 
+
+```
+Name: host, query Prometheus
+query: up
+regex: /instance="([^:"]+)/
+all value: .* regex
+
+Nane: container
+query: container_fs_limit_bytes{instance=~"$host"}
+regex: /name="([^"]*)"/
+all value: .* regex
+```
+
+
+
+Help: https://www.youtube.com/watch?v=sKNZMtoSHN4
+
+
+
+
+
+
+
+
+# Annexe
+
+Run manually:
 
 #cadvisor
 
