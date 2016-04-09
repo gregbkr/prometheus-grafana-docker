@@ -1,5 +1,4 @@
 
-
 # Please run compose and init db: Initialize Database
 #docker run --rm -it --link prometheus_mysql_1:db -e DATABASE_URL=mysql2://dbadmin:pw@db:3306/dash prom/promdash ./bin/rake db:migrate
 
@@ -12,14 +11,22 @@
 #   command: ls
 #   command: "./bin/rake mysql:migrate"
 
-dash:
-  image: prom/promdash
+#dash:
+#  image: prom/promdash
+#  environment:
+#    DATABASE_URL: mysql2://dbadmin:pw@mysql:3306/dash
+#  ports:
+#    - "3001:3000"
+#  links:
+#    - mysql
+
+grafana:
+  image: grafana/grafana
   environment:
-    DATABASE_URL: mysql2://dbadmin:pw@mysql:3306/dash
+    - "GF_SERVER_ROOT_URL=http://grafana.server.name"
+    - "GF_SECURITY_ADMIN_PASSWORD=admin"
   ports:
-    - "3000:3000"
-  links:
-    - mysql
+    - "3002:3000"
 
 mysql:
   image: mysql
@@ -29,7 +36,6 @@ mysql:
     MYSQL_PASSWORD: pw
     MYSQL_DATABASE: dash
 
-
 prometheus:
   image: prom/prometheus
   volumes:
@@ -37,7 +43,7 @@ prometheus:
     - "$PWD/alert.rules:/etc/prometheus/alert.rules"
   ports:
     - "9090:9090"
-  command: "-config.file=/etc/prometheus/prometheus.yml -alertmanager.url=http://192.168.33.10:9093"
+  command: "-config.file=/etc/prometheus/prometheus.yml -alertmanager.url=http://159.8.96.212:9093"
 
 alertmanager:
   image: prom/alertmanager
@@ -64,10 +70,10 @@ cadvisor:
 test:
   image: nginx
   ports: 
-    - "80:80"
+    - "801:80"
 
-# nodeexporter:
-#   image: prom/node-exporter
-#   ports:
-#     - "9100:9100"
-#   net: host
+nodeexporter:
+  image: prom/node-exporter
+  ports:
+    - "9100:9100"
+  net: host
