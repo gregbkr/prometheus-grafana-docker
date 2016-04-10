@@ -43,7 +43,7 @@ prometheus:
     - "$PWD/alert.rules:/etc/prometheus/alert.rules"
   ports:
     - "9090:9090"
-  command: "-config.file=/etc/prometheus/prometheus.yml -alertmanager.url=http://159.8.96.212:9093"
+  command: "-config.file=/etc/prometheus/prometheus.yml -alertmanager.url=http://YOUR_IP:9093"
 
 alertmanager:
   image: prom/alertmanager
