@@ -56,7 +56,7 @@ Help: https://www.youtube.com/watch?v=sKNZMtoSHN4
 
 Run manually:
 
-#cadvisor
+## cadvisor
 
     docker run \
       --volume=/:/rootfs:ro \
@@ -68,14 +68,14 @@ Run manually:
       --name=cadvisor \
       google/cadvisor:latest
 
-# Alertmanager
+## Alertmanager
 
     docker run -d -p 9093:9093 \
       -v $PWD/alertmanager.conf:/alertmanager.conf \
       prom/alertmanager \
       -config.file=/alertmanager.conf
   
-#Prometheus
+## Prometheus
     
     docker run -d -p 9090:9090 \
         -v $PWD/prometheus.yml:/etc/prometheus/prometheus.yml \
@@ -86,10 +86,10 @@ Run manually:
         -alertmanager.url=http://192.168.33.10:9093
   
 Open dev.local:9090
-container_memory_usage_bytes{instance="192.168.33.10:3002",job="panamax",name="prometheus"}
+container_memory_usage_bytes{instance="YOUR_IP:3002",job="panamax",name="prometheus"}
 
 
-# Dashbard
+## Dashbard
 
     docker run -p 3306:3306 --name mysql      \
        -e MYSQL_DATABASE=dash               \
@@ -98,13 +98,13 @@ container_memory_usage_bytes{instance="192.168.33.10:3002",job="panamax",name="p
        -e MYSQL_ROOT_PASSWORD=pw	\
        -d mysql
 
-# Initialize Database
+## Initialize Database (not used)
 
     docker run --rm -it --link prometheus_mysql_1:db -e DATABASE_URL=mysql2://dbadmin:pw@db:3306/dash prom/promdash ./bin/rake db:migrate
    
-# Run Dashboard
+## Run Dashboard (not used)
 
     docker run -d --link mysql:db -p 3000:3000 --name prometheus-dash -e DATABASE_URL=mysql2://dbadmin:pw@db:3306/dash prom/promdash
 
-Add new server source http://192.168.33.10:9090
+Add new server source http://YOUR_IP:9090
 add expression cpu...
