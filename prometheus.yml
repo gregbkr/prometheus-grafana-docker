@@ -25,3 +25,8 @@ scrape_configs:
     scrape_interval: 5s
     target_groups:
       - targets: ['159.8.96.212:8888']
+
+  - job_name: "haproxy"
+    scrape_interval: 5s
+    target_groups:
+      - targets: ['159.8.96.212:9101']
