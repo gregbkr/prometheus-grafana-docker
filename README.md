@@ -1,8 +1,6 @@
 # PROMETHEUS
 
 
-## Run via compose, 
-
 ## 1. Edit vars:
 
     nano docker-compose.yml
